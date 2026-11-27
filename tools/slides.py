@@ -38,8 +38,15 @@ def base():
     return im, d
 
 def logo(d, x=100, y=100, s=0.8):
-    d.text((x, y), "40", font=font("Black", int(70 * s)), fill=WHITE)
-    d.text((x + int(95 * s), y + int(6 * s)), "·15", font=font("Black", int(70 * s)), fill=LIME)
+    """Логотип «40:15»: двоеточие — две салатовые точки (мячи)."""
+    f = font("Black", int(70 * s))
+    d.text((x, y), "40", font=f, fill=WHITE)
+    cx = x + d.textlength("40", font=f) + int(16 * s)
+    r = int(7 * s)
+    top, bottom = d.textbbox((x, y), "40", font=f)[1], d.textbbox((x, y), "40", font=f)[3]
+    for cy in (top + (bottom - top) * 0.32, top + (bottom - top) * 0.78):
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=LIME)
+    d.text((cx + r + int(14 * s), y), "15", font=f, fill=LIME)
 
 def wrap(d, text, f, maxw):
     out = []
